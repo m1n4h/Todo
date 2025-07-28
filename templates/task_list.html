@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="mb-4">
+        <a href="{% url 'todo:task_create' %}" class="btn btn-primary">Add New Task</a>
+    </div>
+
+    <div class="list-group">
+        {% for task in tasks %}
+            <div class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                        {% if task.completed %}
+                            <s>{{ task.title }}</s>
+                        {% else %}
+                            {{ task.title }}
+                        {% endif %}
+                    </h5>
+                    <small>{{ task.created_at|date:"M d, Y" }}</small>
+                </div>
+                <p class="mb-1">{{ task.description }}</p>
+                <div class="mt-2">
+                    <a href="{% url 'todo:task_update' task.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <a href="{% url 'todo:task_delete' task.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-info">No tasks yet. Add your first task!</div>
+        {% endfor %}
+    </div>
+{% endblock %}
